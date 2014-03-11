@@ -1,3 +1,9 @@
+debathena-cupsys-config (1.17.7) unstable; urgency=low
+
+  * Explicitly depend on CUPS
+
+ -- Victor Vasiliev <vasilvv@mit.edu>  Tue, 11 Mar 2014 12:04:27 -0400
+
 debathena-cupsys-config (1.17.6) unstable; urgency=low
 
   [ Jonathan Reed ]
