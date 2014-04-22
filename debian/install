@@ -1,2 +1,3 @@
 debian/restart-cups.sh usr/lib/debathena-cupsys-config
 debian/configure-athena-printers usr/lib/debathena-cupsys-config
+debian/cupsd-site.conf usr/share/debathena-cupsys-config
