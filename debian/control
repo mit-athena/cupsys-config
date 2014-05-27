@@ -2,12 +2,12 @@ Source: debathena-cupsys-config
 Section: debathena-config/net
 Priority: extra
 Maintainer: Debathena Project <debathena@mit.edu>
-Build-Depends: cdbs, debhelper, dh-buildinfo, config-package-dev (>= 5.0~), cups
+Build-Depends: debhelper (>= 7), config-package-dev (>= 5.0~)
 Standards-Version: 3.9.3
 
 Package: debathena-cupsys-config
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, cups | cupsys, cups-bsd | cupsys-bsd, hpijs-ppds
+Depends: ${shlibs:Depends}, ${misc:Depends}, cups, cups-bsd, hpijs-ppds
 Provides: ${diverted-files}, debathena-cluster-cups-config
 Conflicts: ${diverted-files}, debathena-cluster-cups-config (<= 2.0.4)
 Replaces: debathena-cluster-cups-config (<= 2.0.4)

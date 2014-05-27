@@ -1,7 +1,0 @@
-#!/usr/bin/perl -0p
-s/^\s*#?\s*Browsing.*$//m;
-s/^\s*#?\s*BrowseProtocols.*$//m;
-s/^\s*#?\s*BrowsePoll.*$//m;
-s/^\s*#?\s*BrowseInterval.*$//m;
-s/^\s*#?\s*BrowseTimeout.*$//m;
-s|$|\nInclude /usr/share/debathena-cupsys-config/cupsd-site.conf| or die;
