@@ -1,2 +1,3 @@
 debian/restart-cups.sh usr/lib/debathena-cupsys-config
 debian/configure-athena-printers usr/lib/debathena-cupsys-config
+debian/configure-athena-printers.conf etc/init

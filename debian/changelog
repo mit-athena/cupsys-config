@@ -1,3 +1,13 @@
+debathena-cupsys-config (1.19) unstable; urgency=low
+
+  * Ship an upstart job for Upstart-aware systems
+  * Make the sysv init script aware of the Upstart job, and defer to it
+  * Modify configure-athena-printers so it knows whether it's being called
+    from init or not; it will not attempt to start CUPS on its own if
+    called from init (Trac: #1492)
+
+ -- Jonathan Reed <jdreed@mit.edu>  Fri, 20 Jun 2014 08:36:26 -0400
+
 debathena-cupsys-config (1.18) unstable; urgency=low
 
   * Remove all vestiges of BrowsePolling (Trac: #1473)

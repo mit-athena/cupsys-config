@@ -2,3 +2,6 @@
 
 %:
 	dh $@ --with config-package
+
+override_dh_installinit:
+	dh_installinit --no-start --update-rcd-params="defaults 90 10"
