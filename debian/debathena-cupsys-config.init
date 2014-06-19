@@ -13,6 +13,25 @@
 
 . /lib/lsb/init-functions
 
+using_upstart() {
+    local JOB_NAME=configure-athena-printers
+    # Do our best to determine if the upstart job is likely to run
+    # If the job doesn't exist, we're not using upstart
+    [ -f "/etc/init/${JOB_NAME}.conf" ] || return 1
+    # If there's no initctl, we're not using upstart
+    hash initctl 2>/dev/null || return 1
+    # If initctl doesn't know about the job, we're not using upstart
+    initctl status "$JOB_NAME" || return 1
+    # At this point, it is highly likely we're using Upstart.  If we're not,
+    # something is horribly wrong.
+    return 0
+}
+    
+if using_upstart; then
+    log_success_msg "debathena-cupsys-config: Skipping rc in favor of Upstart"
+    exit 0
+fi
+
 case "$1" in
   start)
     if [ -f /var/lib/debathena-cupsys-config-reconfigure_required ]; then
@@ -22,11 +41,15 @@ case "$1" in
 	touch /var/run/athena-nologin
 	nologin=1
       fi
-      if /usr/lib/debathena-cupsys-config/configure-athena-printers add; then
-	rm -f /var/lib/debathena-cupsys-config-reconfigure_required
-	log_end_msg 0
+      /usr/lib/debathena-cupsys-config/configure-athena-printers add init
+      status=$?
+      if [ "$status" = "2" ]; then
+	  log_warning_msg "CUPS not running, could not add MIT printers"
+      elif [ "$status" = "1" ]; then
+	  log_failure_msg "Failed to add MIT printers"
       else
-	log_end_msg 1
+	rm -f /var/lib/debathena-cupsys-config-reconfigure_required
+	log_success_msg "Added MIT printers"
       fi
       [ $nologin -eq 1 ] && rm /var/run/athena-nologin
     fi

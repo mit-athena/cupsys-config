@@ -5,6 +5,9 @@ restart_cups()
     # hilarity, we'll keep this hook around, but only restart
     # CUPS if it's running, and don't error out if we can't.
 
+    # Note that this will likely end badly on Trusty+, due to the
+    # avahi-cups-reload Upstart job.  Test it before making changes.
+
     # It's not 2008 anymore, there's nothing named "cupsys"
     rcname=cups
     if /etc/init.d/$rcname status; then
