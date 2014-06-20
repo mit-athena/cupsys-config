@@ -120,10 +120,23 @@ require_cups() {
     else
         invoke="/etc/init.d/$rcname"
     fi
+    # Even on Upstart-based systems, this can be used as
+    # a conditional, even though "status cups" cannot.
     if ! /etc/init.d/$rcname status; then
-	if ! $invoke start; then
-	    echo "FATAL: Couldn't start CUPS!"
-	    exit 1
+	if [ "$1" = "init" ]; then
+	    # We were started from the init script.  Init should
+	    # also have started CUPS. Oh well...
+	    if [ "$(lpstat -r)" != "scheduler is running" ]; then
+		echo "WARNING: CUPS not running; no printers added."
+		exit 2
+	    fi
+	else
+	    echo -n "Attempting to start cups..."
+	    if ! $invoke start; then
+		echo "FATAL: Couldn't start CUPS!"
+		exit 1
+	    fi
+	    echo "started."
 	fi
     fi
     if [ "$(lpstat -r)" != "scheduler is running" ]; then
@@ -134,11 +147,11 @@ require_cups() {
 
 case "$1" in
     add)
-	require_cups  
+	require_cups "$2"
 	add_printers
 	;;
     remove)
-	require_cups
+	require_cups "$2"
 	del_printers
 	;;
     *)
